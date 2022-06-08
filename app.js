@@ -9,15 +9,19 @@ const reader = async (read) => {
         const files = await fs.readdir(read);
 
         for (const file of files) {
-           const stat = await fs.stat(path.join(read, file))
+            const stat = await fs.stat(path.join(read, file))
 
-            if (stat.isDirectory()){
-             await reader(path.join(read,file))
+            if (stat.isFile()) {
+                await fs.rename(path.join(read, file), path.join(__dirname, 'finalFolder', file))
             }
-            await fs.rename(path.join(read,file), path.join(__dirname, 'finalFolder', file))
+
+            if (stat.isDirectory()) {
+                await reader(path.join(read, file))
+            }
+
         }
-    }catch (e){
+    } catch (e) {
         console.log(e)
     }
 }
-reader(path.join(__dirname,'folderForRead'))
+reader(path.join(__dirname, 'folderForRead'))
