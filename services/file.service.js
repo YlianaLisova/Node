@@ -7,7 +7,7 @@ module.exports = {
     reader: async () => {
         try {
             const data = await fs.readFile(dbPath);
-            return data.toString() ? JSON.parse(data.toString()) : [];
+            return data.toString() ? JSON.parse(data.toString()).sort((a,b) => a.id - b.id) : [];
 
         } catch (e) {
             console.error(e)
