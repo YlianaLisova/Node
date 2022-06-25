@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const {userRouter} = require("./routes");
+const {userRouter, authRouter} = require("./routes");
 
 mongoose.connect("mongodb://localhost:27017/dec-2021");
 
@@ -9,6 +9,7 @@ mongoose.connect("mongodb://localhost:27017/dec-2021");
 const app = express();
 app.use(express.json());
 
+app.use('/auth', authRouter);
 app.use('/users', userRouter);
 
 app.use('*', (req, res) => {
