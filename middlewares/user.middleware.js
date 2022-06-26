@@ -34,21 +34,6 @@ module.exports = {
             next(e);
         }
     },
-    checkIsUserPresent: async (req, res, next) => {
-        try {
-            const {email} = req.body;
-
-            const user = await userService.findOneUser({email: email});//{email}
-            if (!user) {
-                return next(new CustomError('User not found', 404))
-            }
-
-            req.user = user;
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
 
     isUserValidForUpdate: async (req, res, next) => {
         try{
