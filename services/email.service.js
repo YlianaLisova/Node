@@ -24,7 +24,7 @@ module.exports = {
                 layoutsDir: path.join(process.cwd(), 'email-templates', 'layouts'),
                 partialsDir: path.join(process.cwd(), 'email-templates', 'partials'),
             },
-            viewPath: path.join(process.cwd(), 'email-templates'),
+            viewPath: path.join(process.cwd(), 'email-templates', 'views'),
             extName: ".hbs"
         }
 
