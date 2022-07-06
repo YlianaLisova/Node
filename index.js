@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require("path");
+require('dotenv').config({path: path.join(process.cwd(), 'environments', `${process.env.MODE}.env`)})
 
 const {userRouter, authRouter} = require("./routes");
+const {MONGO_URL, PORT} = require("./constants/configs");
 
-mongoose.connect("mongodb://localhost:27017/dec-2021");
+mongoose.connect(MONGO_URL);
 
 
 const app = express();
@@ -26,7 +29,7 @@ res
     }
 )
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
     console.log('Started on port 5000')
 });
 
