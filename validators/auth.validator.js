@@ -6,4 +6,7 @@ module.exports = {
         email: emailValidator.required(),
         password: passwordValidator.required(),
     }),
+    newPassword: Joi.object({
+        password: passwordValidator.required(),
+    })
 };

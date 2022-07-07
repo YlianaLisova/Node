@@ -1,6 +1,7 @@
 const CustomError = require("../errors/CustomError");
-const {checkToken} = require("../services/token.service");
+const {checkToken, checkActionToken} = require("../services/token.service");
 const OAuth = require('../dataBase/OAuth');
+const ActionToken = require('../dataBase/ActionToken');
 const {userService} = require("../services");
 const {authValidator} = require("../validators");
 const {tokenTypeEnum} = require("../enums");
@@ -25,6 +26,29 @@ module.exports = {
 
             req.access_token = tokenInfo.access_token;
             req.user = tokenInfo.userId;
+            next();
+        }catch (e) {
+            next(e);
+        }
+    },
+
+    checkActionToken: (actionType) => async (req, res, next) => {
+        try{
+            const action_token = req.get(AUTHORIZATION);
+
+            if(!action_token) {
+                return next(new CustomError('No token', 401));
+            }
+            checkActionToken(action_token, actionType);
+
+            const tokenInfo = await ActionToken.findOne({token: action_token}).populate('userId');
+
+            if (!tokenInfo) {
+                return next(new CustomError('Token not valid', 401));
+            }
+
+            req.user = tokenInfo.userId;
+
             next();
         }catch (e) {
             next(e);
@@ -76,6 +100,21 @@ module.exports = {
 
             if (error) {
                 return next(new CustomError('Wrong email or password', 400))
+            }
+
+            req.body = value;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    isNewPasswordValid: async (req, res, next) => {
+        try {
+            const {error, value} = await authValidator.newPassword.validate(req.body);
+
+            if (error) {
+                return next(new CustomError('Enter valid password', 400))
             }
 
             req.body = value;

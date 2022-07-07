@@ -19,7 +19,7 @@ app.use('*', (req, res) => {
 });
 
 app.use((err, req, res, next) => {
-res
+    res
     .status(err.status || 500)
     .json({
         error: err.message || 'Unknown error',
