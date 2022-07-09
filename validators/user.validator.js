@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const {emailValidator, nameValidator, ageValidator, passwordValidator} = require("./share");
+const {emailValidator, nameValidator, ageValidator, passwordValidator, phoneValidator} = require("./share");
 
 
 // const testArraySubScheme = Joi.object({
@@ -12,7 +12,8 @@ module.exports = {
         name: nameValidator.required(),
         age: ageValidator.required(),
         email: emailValidator.required(),
-        password: passwordValidator.required()
+        password: passwordValidator.required(),
+        phone: phoneValidator.required()
     }),
 
     updateUserValidator: Joi.object({
