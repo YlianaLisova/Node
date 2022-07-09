@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose');
+const {passwordService} = require("../services");
 
 const UserSchema = new Schema({
     name: {
@@ -13,15 +14,32 @@ const UserSchema = new Schema({
         trim: true,
         lowercase: true
     },
-    age:{
+    age: {
         type: Number,
         default: 20
     },
-    password:{
+    password: {
         type: String,
         required: true
     }
 }, {timestamps: true});
+
+
+//METHODS
+UserSchema.methods = { // for single record // THIS - RECORD
+   async comparePasswords(password) {
+       await passwordService.comparePassword(this.password,password)
+    }
+}
+
+// STATICS
+UserSchema.statics = {// for schema //THIS - SCHEMA
+    createUserWithHashPassword: async function(userToSave) {
+        const hashedPassword = await passwordService.hashPassword(userToSave.password);
+
+        return this.create({...userToSave, password: hashedPassword});
+    }
+}
 
 module.exports = model('user', UserSchema);
 
