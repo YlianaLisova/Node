@@ -11,7 +11,6 @@ module.exports = {
 
             await passwordService.comparePassword(hashPassword, password)
 
-
             const tokens = tokenService.generateAuthTokens();
 
             await OAuth.create({
