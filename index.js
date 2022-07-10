@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const expressFileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
 
 const {userRouter, authRouter} = require("./routes");
@@ -11,6 +12,7 @@ mongoose.connect("mongodb://localhost:27017/dec-2021");
 const app = express();
 app.use(express.json());
 
+app.use(expressFileUpload());
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 
