@@ -19,13 +19,6 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
-
-            console.log('-=-=-==-==-=-=-===--=-=-=-=-==-');
-            console.log(req.files);
-            console.log('-=-=-==-==-=-=-===--=-=-=-=-==-');
-            const avatar = '';
-
-
             const hashedPassword = await passwordService.hashPassword(req.body.password);
 
             const user = await userService.createUser({...req.body, password: hashedPassword});

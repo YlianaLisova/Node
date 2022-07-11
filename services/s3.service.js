@@ -13,13 +13,14 @@ const BucketConfig = new S3({
 const uploadFile = async (file, itemType, itemId) => {
     const Key = _buildFilePath(file.name, itemType, itemId);
 
-   return  BucketConfig
-       .upload({
-        Bucket: AWS_S3_BUCKET,
-        Key,
-        ACL: "public-read",
-        Body: file.data
-    })
+    return BucketConfig
+        .upload({
+            Bucket: AWS_S3_BUCKET,
+            Key,
+            ContentType: file.mimeType,
+            ACL: "public-read",
+            Body: file.data
+        })
         .promise()
 }
 
@@ -27,7 +28,7 @@ module.exports = {
     uploadFile
 }
 
-function _buildFilePath(fileName='', itemType, itemId){
+function _buildFilePath(fileName = '', itemType, itemId) {
 
     const ext1 = fileName.split('.').pop(); // return jpg
     // const ext2 = path.extname(fileName); // return .jpg
