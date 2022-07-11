@@ -1,6 +1,7 @@
 const {userService, passwordService} = require("../services");
 const {userPresenter} = require("../presenters/user.presenter");
 const {uploadFile} = require("../services/s3.service");
+const User = require("../dataBase/User");
 
 
 module.exports = {
@@ -24,13 +25,15 @@ module.exports = {
             console.log('-=-=-==-==-=-=-===--=-=-=-=-==-');
             const avatar = '';
 
-            const {Location} = await uploadFile(req.files.userAcatar);
 
             const hashedPassword = await passwordService.hashPassword(req.body.password);
 
-            const user = await userService.createUser({...req.body, password: hashedPassword, avatar: Location});
+            const user = await userService.createUser({...req.body, password: hashedPassword});
 
-            const userForResponse = userPresenter(user);
+            const {Location} = await uploadFile(req.files.userAcatar, 'user', user._id);
+            const userWithPhoto = await User.findByIdAndUpdate(user._id, {avatar: Location}, {new: true})
+
+            const userForResponse = userPresenter(userWithPhoto);
 
             res.status(201).json(userForResponse);
         } catch (e) {
