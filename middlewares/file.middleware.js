@@ -4,17 +4,17 @@ module.exports = {
     checkUserAvatar: async (req, res, next) => {
         try{
 
-            if (!req.files?.avatar) {
+            if (!req.files?.userAcatar) {
                 return next()
             }
 
-            const {mimetype, size} = req.files.avatar;
+            const {mimetype, size} = req.files.userAcatar;
 
-            if (size > IMAGE_MAX_SIZE){
+            if (size > IMAGE_MAX_SIZE) {
                 return next(new CustomError('Max size 3MB'))
             }
 
-            if (!IMAGE_MIMETYPES.includes(mimetype)){
+            if (!IMAGE_MIMETYPES.includes(mimetype)) {
                 return next(new CustomError('Wrong file type'))
             }
 

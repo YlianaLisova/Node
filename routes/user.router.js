@@ -6,7 +6,7 @@ const CommonMiddleware = require("../middlewares/common.middleware");
 const {authMiddleware, fileMiddleware} = require("../middlewares");
 
 router.get('/',userMiddleware.isUserQueryValid, userController.findUsers);
-router.post('/', fileMiddleware.checkUserAvatar,userMiddleware.isNewUserValid, userMiddleware.isUserUnique, userController.createUser);
+router.post('/',userMiddleware.isNewUserValid,  fileMiddleware.checkUserAvatar, userMiddleware.isUserUnique, userController.createUser);
 
 router.get('/:id', CommonMiddleware.isIdValid,userMiddleware.isUserPresent, userController.getUserById);
 router.put('/:id', CommonMiddleware.isIdValid,authMiddleware.checkAccessToken,userMiddleware.isUserValidForUpdate,userMiddleware.isUserPresent, userController.updateUserById);
