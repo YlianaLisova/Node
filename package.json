@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "start": "node .",
+    "start:dev": "set MODE=dev&&nodemon .",
+    "start:prod": "set MODE=prod&&node ."
+  },
   "dependencies": {
     "aws-sdk": "^2.1171.0",
     "bcrypt": "^5.0.1",
@@ -10,6 +15,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.8",
     "nodemailer": "^6.7.5",
+    "nodemon": "^2.0.19",
     "pug": "^3.0.2",
     "uuid": "^8.3.2"
   },

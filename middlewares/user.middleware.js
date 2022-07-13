@@ -1,6 +1,5 @@
 const CustomError = require('../errors/CustomError');
 const {userService} = require("../services");
-const {userValidator, userQueryValidator} = require("../validators");
 
 
 module.exports = {
@@ -35,49 +34,4 @@ module.exports = {
         }
     },
 
-    isUserValidForUpdate: async (req, res, next) => {
-        try{
-            const {error,value}  = userValidator.updateUserValidator.validate(req.body);
-
-            if (error) {
-                return next(new CustomError(error.details[0].message));
-            }
-
-            req.body = value;
-
-            next();
-        }catch (e) {
-            next(e);
-        }
-    },
-
-    isNewUserValid: async (req, res, next) => {
-        try{
-            const {error,value}  = userValidator.newUserValidator.validate(req.body);
-
-            if (error) {
-                return next(new CustomError(error.details[0].message));
-            }
-
-            req.body = value;
-            next();
-        }catch (e) {
-            next(e);
-        }
-    },
-
-    isUserQueryValid: async (req, res, next) => {
-        try{
-            const {error,value}  = userQueryValidator.findAll.validate(req.query);
-
-            if (error) {
-                return next(new CustomError(error.details[0].message));
-            }
-
-            req.query = value;
-            next();
-        }catch (e) {
-            next(e);
-        }
-    }
 }
