@@ -1,7 +1,9 @@
-const {userService, passwordService, s3Service} = require("../services");
+const {userService, passwordService, s3Service, smsService} = require("../services");
 const {userPresenter} = require("../presenters/user.presenter");
 const {uploadFile} = require("../services/s3.service");
 const User = require("../dataBase/User");
+const {smsActionTypeEnum} = require("../enums");
+const {smsTemplateBuilder} = require("../common");
 
 
 module.exports = {
@@ -19,9 +21,14 @@ module.exports = {
 
     createUser: async (req, res, next) => {
         try {
+            const {phone, name} = req.body;
             const hashedPassword = await passwordService.hashPassword(req.body.password);
 
             const user = await userService.createUser({...req.body, password: hashedPassword});
+
+            const sms = smsTemplateBuilder[smsActionTypeEnum.WELCOME](name);
+
+            await smsService.sendSMS(phone, sms);
 
             const {Location} = await uploadFile(req.files.userAvatar, 'user', user._id);
             const userWithPhoto = await User.findByIdAndUpdate(user._id, {avatar: Location}, {new: true})
