@@ -14,15 +14,17 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.8",
+    "node-cron": "^3.0.1",
     "nodemailer": "^6.7.5",
-    "twilio": "^3.79.0",
     "nodemon": "^2.0.19",
     "pug": "^3.0.2",
+    "twilio": "^3.79.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/email-templates": "^8.0.4",
     "@types/express-fileupload": "^1.2.2",
-    "@types/nodemailer": "^6.4.4"
+    "@types/nodemailer": "^6.4.4",
+    "morgan": "^1.10.0"
   }
 }
